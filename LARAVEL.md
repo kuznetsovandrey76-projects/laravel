@@ -1,25 +1,26 @@
-- app/
-  - Console
-  - `Events`
-  - Exceptions
-  - Http
-  - `Jobs`
-  - `Listeners`
-  - `Mail`
-  - `Notifications`
-  - `Policies`
-  - Providers
-- bootstrap/
-- config/
-- database/  
-`logs/`  
-- public`_html`/
-- resources/
-- routes/
-- storage/
-- tests/
-- vendor/
-
+```
+- app/                - код ядра вашего приложения
+  - Console           - дополнительные Artisan-команды для вашего приложения
+  - [Events]          - классы событий
+  - Exceptions        - обработчик исключений вашего приложения
+  - Http              - контроллеры, посредники и запросы форм
+  - [Jobs]            - задачи для вашего приложения
+  - [Listeners]       - классы обработчиков для ваших событий
+  - [Mail]            - классы, отвечающие за отправляемые вашим приложением email-сообщения
+  - [Notifications]   - "транзакционные" уведомления, которые отправляются вашим приложением ...
+  - [Policies]        - классы политик авторизации
+  - Providers         - сервис-провайдеры для вашего приложения
+- bootstrap/          - файлы, которые загружают фреймворк и настраивают автозагрузку
+- config/             - все конфигурационные файлы ваших приложений
+- database/           - миграции и классы для наполнения начальными данными вашей БД
+[logs/]  
+- public[_html]/      - cодержит файл `index.php`, который является входной точкой для всех запросов, поступающих в ваше приложение
+- resources/          - ваши шаблоны
+- routes/             - все определения роутов вашего приложения
+- storage/            - скомпилированные Blade-шаблоны, файлы сессий, кэши файлов ...
+- tests/              - автотесты
+- vendor/             - Composer-зависимости
+```
 
 
 ## `composer.json`  
@@ -30,6 +31,6 @@
 
 ## structure
 роуты: `routes/web.php`  
-контроллерыы: `app/http/Controllers/Front/[index].php`  
+контроллеры: `app/http/Controllers/Front/[index].php`  
 вьюхи: `resources/views/front/home/[index].blade.php`  
 
