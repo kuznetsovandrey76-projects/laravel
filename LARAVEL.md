@@ -32,5 +32,6 @@
 ## structure
 роуты: `routes/web.php`  
 контроллеры: `app/http/Controllers/Front/[index].php`  
-вьюхи: `resources/views/front/home/[index].blade.php`  
+вьюхи: `resources/views/front/home/[index].blade.php`   
+модели: `app/User.php`   
 
