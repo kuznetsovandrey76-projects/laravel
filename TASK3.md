@@ -1,13 +1,10 @@
 `php artisan make:migration create_task2_table --create=task2`
-
- $table->text('body');
-
+database/migrations/{созданная миграция}
+добавляем `$table->text('body');`
 `php artisan migrate`
-
-Route::get('/task2', 'Front\Task2@index');
-
-
-Task2.php
+routes/web.php
+`Route::get('/task2', 'Front\Task2@index');`
+app/Http/Front/Task2.php
 ```php
 <?php
 namespace App\Http\Controllers\Front;
@@ -24,7 +21,7 @@ class Task2 extends Controller
     }
 }
 ```
-index.blade.php
+resources/views/front/task2/index.blade.php
 ```php
 <!DOCTYPE html>
 <html lang="en">
@@ -35,15 +32,38 @@ index.blade.php
     <title>Document</title>
 </head>
 <body>
+
+    <form action="">
+        <input type="text" name="title" placeholder="Input your text">
+        <input type="submit" value="Add">
+    </form>
+
     <ul>
         @foreach ($task2 as $task)
-            <li>
-                <!-- <a href="task/{{$task->id}}"> -->
-                    {{ $task->body }}
-                <!-- </a> -->
-            </li>
+            <li>{{ $task->body }}<a href="delete/{{$task->id}}">X</a></li>
         @endforeach
     </ul>
 </body>
 </html>
+```
+app/Http/Front/Delete.php
+```php
+<?php
+
+namespace App\Http\Controllers\Front;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use DB;
+
+class Delete extends Controller
+{
+
+    public function index(Request $request)
+    {
+        $id = $request -> route('title');
+        DB::delete('delete from task2 where id = ?',[$id]);
+        return redirect('/task2')->with('success','Information has been  deleted');
+    }
+}
 ```
