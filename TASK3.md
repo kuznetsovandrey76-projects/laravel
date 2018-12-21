@@ -1,9 +1,12 @@
-`php artisan make:migration create_task2_table --create=task2`
-database/migrations/{созданная миграция}
-добавляем `$table->text('body');`
-`php artisan migrate`
-routes/web.php
-`Route::get('/task2', 'Front\Task2@index');`
+`php artisan make:migration create_task2_table --create=task2`  
+в `database/migrations/{созданная миграция}` добавляем `$table->text('body');`    
+`php artisan migrate`  
+routes/web.php  
+```
+Route::get('/task2', 'Front\Task2@index');
+Route::get('/delete/{title}', 'Front\Delete@index');
+Route::post('/create', 'Front\Insert@insert');
+```
 app/Http/Front/Task2.php
 ```php
 <?php
@@ -16,8 +19,45 @@ class Task2 extends Controller
 {
     public function index()
     {
-        $task2 = DB::table('task2')->get();
+        $task2 = DB::table('task2')->get()->reverse();
         return view('front.task2.index', compact('task2'));
+    }
+}
+```
+app/Http/Front/Delete.php
+```php
+<?php
+namespace App\Http\Controllers\Front;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use DB;
+
+class Delete extends Controller
+{
+    public function index(Request $request)
+    {
+        $id = $request -> route('title');
+        DB::delete('delete from task2 where id = ?',[$id]);
+        return redirect('/task2')->with('success','Information has been  deleted');
+    }
+}
+```
+app/Http/Front/Insert.php
+```php
+<?php
+namespace App\Http\Controllers\Front;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use DB;
+
+class Insert extends Controller
+{
+    public function insert(Request $request)
+    {
+        $body = $request -> input('title');
+        $data = array('body' => $body);
+        DB::table('task2')->insert($data);
+        return redirect('/task2')->with('success','Information has been  deleted');
     }
 }
 ```
@@ -32,8 +72,8 @@ resources/views/front/task2/index.blade.php
     <title>Document</title>
 </head>
 <body>
-
-    <form action="">
+    <form action="/create" method="post">
+        @csrf
         <input type="text" name="title" placeholder="Input your text">
         <input type="submit" value="Add">
     </form>
@@ -46,24 +86,4 @@ resources/views/front/task2/index.blade.php
 </body>
 </html>
 ```
-app/Http/Front/Delete.php
-```php
-<?php
 
-namespace App\Http\Controllers\Front;
-
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use DB;
-
-class Delete extends Controller
-{
-
-    public function index(Request $request)
-    {
-        $id = $request -> route('title');
-        DB::delete('delete from task2 where id = ?',[$id]);
-        return redirect('/task2')->with('success','Information has been  deleted');
-    }
-}
-```
