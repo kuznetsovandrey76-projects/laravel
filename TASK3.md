@@ -28,7 +28,7 @@ class Task2 extends Controller
     {
         $id = $request -> route('title');
         DB::delete('delete from task2 where id = ?',[$id]);
-        return redirect('/task2')->with('success','Information has been  deleted');
+        return redirect('/task2')->with('delete','Information has been deleted');
     }
 
     public function insert(Request $request)
@@ -36,7 +36,7 @@ class Task2 extends Controller
         $body = $request -> input('title');
         $data = array('body' => $body);
         DB::table('task2')->insert($data);
-        return redirect('/task2')->with('success','Information has been  deleted');
+        return redirect('/task2')->with('insert','Information has been updated');
     }
 }
 ```
@@ -51,6 +51,7 @@ resources/views/front/task2/index.blade.php
     <title>Document</title>
 </head>
 <body>
+
     <form action="/create" method="post">
         @csrf
         <input type="text" name="title" placeholder="Input your text">
@@ -62,6 +63,18 @@ resources/views/front/task2/index.blade.php
             <li>{{ $task->body }}<a href="delete/{{$task->id}}">X</a></li>
         @endforeach
     </ul>
+
+    @if (session('delete'))
+    <div class="alert alert_delete">
+        {{ session('delete') }}
+    </div>
+    @endif
+
+    @if (session('insert'))
+    <div class="alert alert_insert">
+        {{ session('insert') }}
+    </div>
+    @endif
 </body>
 </html>
 ```
