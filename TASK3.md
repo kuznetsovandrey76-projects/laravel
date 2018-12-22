@@ -59,14 +59,54 @@ resources/views/front/task2/index.blade.php
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Task 2</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <style>
+        body {
+            margin: 0;
+        }
+        .form {
+            background: lightgray;
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+            margin-bottom: 10px;         
+        }
+        .form__input {
+            padding: 3px;
+        }
+        .form__submit {
+            background: lightgreen;
+            border: none;
+            padding: 5px;            
+        }
+        .table {
+            margin: 0 auto;
+            text-align: center;
+            margin-bottom: 10px; 
+        }
+        .alert {
+            text-align: center;
+        }
         .alert_delete {
             color: red;
         }
         .alert_insert {
             color: green;
+        }
+        .alert_update {
+            color: brown;
+        }
+        .edit-block {
+            display: flex;
+            justify-content: center;
+        }
+        #popup_close {
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        .edit {
+            cursor: pointer;
         }
         a {
             margin: 0 5px;  
@@ -74,31 +114,81 @@ resources/views/front/task2/index.blade.php
         .id {
             display: none;
         }
+        .popup{
+            width:100%;
+            min-height:100%;
+            background-color: rgba(0,0,0,0.5);
+            overflow:hidden;
+            position:fixed;
+            top:0px;
+        }
+        .popup .popup__container{
+            margin:40px auto 0px auto;
+            display: flex;
+            width: 300px;
+            padding:10px;
+            background-color: #c5c5c5;
+            border-radius:5px;
+            box-shadow: 0px 0px 10px #000;
+        }
+        .popup__container {
+            display: flex;
+            justify-content: center;
+            width: auto;
+        }
     </style>
 </head>
 <body>
-
-    <form action="/create" method="post">
-        @csrf
-        <input type="text" name="title" placeholder="Input your text">
-        <input type="submit" value="Add">
-    </form>
-
-    <ul>
+    <div class="form form_main">            
+        <form action="/create" method="post">
+            @csrf
+            <input class="form__input" type="text" name="title" placeholder="Введите сообщение">
+            <input class="form__submit" type="submit" value="Добавить">
+        </form>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="id">Name</th>
+                <!-- <th>E-mail</th> -->
+                <th>Message</th>
+                <th>Update</th>
+                <th>Delete</th>
+                <!-- <th>Add product</th> -->
+                <!-- <th>View product</th> -->
+            </tr>
+        </thead>
+        <tbody>
         @foreach ($task2 as $task)
-            <li><span class="id">{{ $task->id }}</span><span  class="body">{{ $task->body }}</span><a href="delete/{{$task->id}}">X</a><span class="edit">edit</span></li>
-            
+            <tr>                    
+                <td class="id">{{ $task->id }}</td>
+                <!-- <td>E-mail</td> -->
+                <td class="body">{{ $task->body }}</td>
+                <td class="edit">edit</td>
+                <td><a href="delete/{{$task->id}}">X</a></td>
+            </tr>
         @endforeach
-    </ul>
+        </tbody>
+    </table>
 
-    <div id="edit">
+
+    <div class="popup" id="popup_">
+    <div class="popup__container" id="edit">
         <form action="/update" method="post">
             @csrf
             <input id="edit_id" type="hidden" name="id">
             <input id="edit_body" type="text" name="body">
-            <input type="submit" value="Update">
+            <input id="edit_update" type="submit" value="Update">
         </form>
+        <span id="popup_close">x</span>
     </div>    
+    </div>
+
+    @if (session('update'))
+    <div id="update" class="alert alert_update">
+        {{ session('update') }}
+    </div>
+    @endif
 
     @if (session('delete'))
     <div id="delete" class="alert alert_delete">
@@ -114,15 +204,20 @@ resources/views/front/task2/index.blade.php
 
     <script>
     $( document ).ready(function() {
+        $('#popup_').hide();
+        $('#edit').hide();
+
         setTimeout(function() {
             $('#delete').hide();
             $('#insert').hide();
-        }, 2000);
+            $('#update').hide();
+        }, 1000);
 
         $('.edit').click(function() {
             var id = $(this).parent().children('.id').text();
             var body = $(this).parent().children('.body').text();
             console.log(id, body);
+            $('#edit').show();
             // $('#edit').empty();
             // $('<div>', {
                 // text: id + ' ' + body
@@ -130,8 +225,19 @@ resources/views/front/task2/index.blade.php
             $('#edit_id').val(id);
             $('#edit_body').val(body);
         });
-    });
 
+        $('#edit_update').click(function() {
+            $('#edit').hide();
+        });
+
+        $('.edit').click(function() {
+            $('#popup_').show();
+        });
+
+        $('#popup_close').click(function() {
+            $('#popup_').hide();
+        });
+    });
     </script>
 </body>
 </html>
