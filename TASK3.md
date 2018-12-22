@@ -7,6 +7,7 @@ routes/web.php
 Route::get('/task2', 'Front\Task2@index');
 Route::get('/delete/{title}', 'Front\Task2@delete');
 Route::post('/create', 'Front\Task2@insert');
+Route::post('/update', 'Front\Task2@update');
 ```
 app/Http/Front/Task2.php
 ```php
@@ -28,7 +29,7 @@ class Task2 extends Controller
     {
         $id = $request -> route('title');
         DB::delete('delete from task2 where id = ?',[$id]);
-        return redirect('/task2')->with('delete','Information has been deleted');
+        return redirect('/task2')->with('delete','Запись удалена');
     }
 
     public function insert(Request $request)
@@ -36,7 +37,17 @@ class Task2 extends Controller
         $body = $request -> input('title');
         $data = array('body' => $body);
         DB::table('task2')->insert($data);
-        return redirect('/task2')->with('insert','Information has been updated');
+        return redirect('/task2')->with('insert','Запись добавлена');
+    }
+
+    public function update(Request $request)
+    {
+        $id = $request -> input('id');
+        $body = $request -> input('body');
+        DB::table('task2')->where('id',$id)->update(array(
+            'body' => $body,
+        ));
+        return redirect('/task2')->with('update','Запись обновлена');
     }
 }
 ```
@@ -80,7 +91,14 @@ resources/views/front/task2/index.blade.php
         @endforeach
     </ul>
 
-    <div id="edit"></div>    
+    <div id="edit">
+        <form action="/update" method="post">
+            @csrf
+            <input id="edit_id" type="hidden" name="id">
+            <input id="edit_body" type="text" name="body">
+            <input type="submit" value="Update">
+        </form>
+    </div>    
 
     @if (session('delete'))
     <div id="delete" class="alert alert_delete">
@@ -105,10 +123,12 @@ resources/views/front/task2/index.blade.php
             var id = $(this).parent().children('.id').text();
             var body = $(this).parent().children('.body').text();
             console.log(id, body);
-            $('#edit').empty();
-            $('<div>', {
-                text: id + ' ' + body
-            }).appendTo('#edit');
+            // $('#edit').empty();
+            // $('<div>', {
+                // text: id + ' ' + body
+            // }).appendTo('#edit');
+            $('#edit_id').val(id);
+            $('#edit_body').val(body);
         });
     });
 
