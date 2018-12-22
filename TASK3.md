@@ -49,6 +49,21 @@ resources/views/front/task2/index.blade.php
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+        .alert_delete {
+            color: red;
+        }
+        .alert_insert {
+            color: green;
+        }
+        a {
+            margin: 0 5px;  
+        }
+        .id {
+            display: none;
+        }
+    </style>
 </head>
 <body>
 
@@ -60,21 +75,44 @@ resources/views/front/task2/index.blade.php
 
     <ul>
         @foreach ($task2 as $task)
-            <li>{{ $task->body }}<a href="delete/{{$task->id}}">X</a></li>
+            <li><span class="id">{{ $task->id }}</span><span  class="body">{{ $task->body }}</span><a href="delete/{{$task->id}}">X</a><span class="edit">edit</span></li>
+            
         @endforeach
     </ul>
 
+    <div id="edit"></div>    
+
     @if (session('delete'))
-    <div class="alert alert_delete">
+    <div id="delete" class="alert alert_delete">
         {{ session('delete') }}
     </div>
     @endif
 
     @if (session('insert'))
-    <div class="alert alert_insert">
+    <div id="insert" class="alert alert_insert">
         {{ session('insert') }}
     </div>
     @endif
+
+    <script>
+    $( document ).ready(function() {
+        setTimeout(function() {
+            $('#delete').hide();
+            $('#insert').hide();
+        }, 2000);
+
+        $('.edit').click(function() {
+            var id = $(this).parent().children('.id').text();
+            var body = $(this).parent().children('.body').text();
+            console.log(id, body);
+            $('#edit').empty();
+            $('<div>', {
+                text: id + ' ' + body
+            }).appendTo('#edit');
+        });
+    });
+
+    </script>
 </body>
 </html>
 ```
