@@ -1,3 +1,6 @@
+скачиваем [composer](https://getcomposer.org/download/)  
+во время установки указываем расположение `php.exe` как `OSPanel\modules\php\PHP-7.*` - OpenServer     
+
 1. From [Laravel](https://laravel.com/docs/5.5#installing-laravel) in Via Composer Create-Project  
 copy `composer create-project --prefer-dist laravel/laravel blog "5.5.*"`
 2. Запустить OpenServer, открыть консоль OpenServera, перейти в `cd domains` и вставить  
