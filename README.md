@@ -3,6 +3,12 @@
 
 1. From [Laravel](https://laravel.com/docs/5.5#installing-laravel) in Via Composer Create-Project  
 copy `composer create-project --prefer-dist laravel/laravel blog "5.5.*"`
+
+или в папке `domains` - `composer create-project --prefer-dist laravel/laravel [name-your-project]`  
+изменяем поля работы с БД в `.env`  
+`php artisan make:auth`  
+
+
 2. Запустить OpenServer, открыть консоль OpenServera, перейти в `cd domains` и вставить  
 3. добавляем домен в OpenServer `\blog\public`
 4. устанавливаем [eloquent-sluggable](https://github.com/cviebrock/eloquent-sluggable) в `\blog`  
