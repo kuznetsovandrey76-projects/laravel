@@ -7,7 +7,8 @@ copy `composer create-project --prefer-dist laravel/laravel blog "5.5.*"`
 или в папке `domains` - `composer create-project --prefer-dist laravel/laravel [name-your-project]`  
 изменяем поля работы с БД в `.env`  
 `php artisan make:auth`  
-
+`composer require laravel/socialite`  
+`composer require socialiteproviders/vkontakte`  
 
 2. Запустить OpenServer, открыть консоль OpenServera, перейти в `cd domains` и вставить  
 3. добавляем домен в OpenServer `\blog\public`
