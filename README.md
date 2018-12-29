@@ -44,3 +44,20 @@ GITHUB_CLIENT_SECRET=
 GITHUB_CALLBACK_URL=
 ```
 
+`resources/vies/auth/login.blade.php`
+```php
+    </form>
+    <a href="{{ url('login/github') }}" class="btn btn-primary">Login GitHub</a>
+</div>
+```
+
+edit `config/database.php`
+```
+'charset' => 'utf8mb4',
+'collation' => 'utf8mb4_unicode_ci',
+```
+to
+```
+'charset' => 'utf8',
+'collation' => 'utf8_unicode_ci',
+```
