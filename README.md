@@ -27,3 +27,20 @@ die;
 8. устанавливаем [xdebug](https://xdebug.org/wizard.php) вставляем текст страницы  
 можно `Дополнительно->Конфигурации->PHP7.1` вставляем в самый конец  
 9. убираем из `public\index.php`
+
+
+`config/services.php`
+```php
+'github' => [
+  'client_id' => env('GITHUB_CLIENT_ID'),
+  'client_secret' => env('GITHUB_CLIENT_SECRET'),
+  'redirect' => env('GITHUB_CALLBACK_URL'),
+],
+```
+`.env`
+```
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+GITHUB_CALLBACK_URL=
+```
+
